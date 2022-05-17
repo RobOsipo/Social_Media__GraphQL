@@ -9,6 +9,7 @@ const app = express();
 
 app.use(bodyParser.json());
 
+
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
@@ -20,6 +21,13 @@ app.use((req, res, next) => {
 });
 
 app.use("/feed", feedRoutes);
+
+app.use((error, req, res, next) => {
+    console.log(error)
+    const status = error.statusCode || 500
+    const {message} = error
+    res.status(status).json({message: message})
+})
 
 mongoose
   .connect(process.env.MONGOPRODUCTION)
