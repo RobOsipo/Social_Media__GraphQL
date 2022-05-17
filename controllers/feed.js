@@ -46,7 +46,7 @@ exports.createPost = (req, res, next) => {
       if (!err.statusCode) {
         err.statucCode = 500;
       }
-      console.log("failed to save POST to Atlas", err);
+      console.log("failed to create post", err);
       next(err);
     });
 };
