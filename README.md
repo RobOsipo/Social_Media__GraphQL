@@ -1,2 +1,2 @@
-## A REST API for building social media websites
-***ACA Capstone***
+## A GraphQL for building social media websites
+***in construction***
