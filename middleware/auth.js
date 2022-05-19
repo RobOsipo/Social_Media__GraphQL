@@ -1,31 +1,30 @@
+require('dotenv').config()
 const jwt = require('jsonwebtoken')
 
 module.exports = (req, res, next) => {
     const authHeader = req.headers.authorization
     if(!authHeader) {
         console.log('no authorization header attached')
-        const error = new Error('No authorization header attached')
-        error.statusCode = 401
-        throw error
+        req.isAuth = false
+        return next()
     }
 
     const token = req.headers.authorization.split(' ')[1]
     let decodedToken
     try {
-        decodedToken = jwt.verify(token, 'gugigistufandog')
+        decodedToken = jwt.verify(token, process.env.SECRET)
     } catch(err) {
-        console.log('.catch block of is-auth')
-        err.statusCode = 500
-        throw err;
+        req.isAuth = false
+        return next()
     }
 
     if(!decodedToken) {
         console.log('!decodedToken is-auth')
-        const error = new Error('Not Authenticated')
-        error.statusCode = 401
-        throw error;
+        req.isAuth = false
+        return next()
     }
 
     req.userId = decodedToken.userId
+    req.isAuth = true
     next()
 }

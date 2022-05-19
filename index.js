@@ -9,6 +9,7 @@ const graphqlResolver = require('./graphql/resolvers')
 
 
 
+
 const app = express();
 
 app.use(bodyParser.json());
@@ -26,6 +27,8 @@ app.use((req, res, next) => {
   }
   next();
 });
+
+
 
 app.use('/graphql', graphqlHTTP({
   schema: graphqlSchema,
