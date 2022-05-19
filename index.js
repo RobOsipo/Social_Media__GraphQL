@@ -21,13 +21,26 @@ app.use((req, res, next) => {
     "GET, POST, PUT, PATCH, DELETE"
   );
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  if(req.method === 'OPTIONS') {
+    res.sendStatus(200)
+  }
   next();
 });
 
 app.use('/graphql', graphqlHTTP({
   schema: graphqlSchema,
   rootValue: graphqlResolver,
-  graphiql: true
+  graphiql: true,
+  customFormatErrorFn(err) {
+    if(!err.originalError) {
+      return err
+    }
+
+    const {data} = err.originalError
+    const {code} = err.originalError || 500
+    const {message} = err || 'An Error Occurred'
+    return {message: message, status: code, data: data}
+  }
 }))
 
 app.use((error, req, res, next) => {
