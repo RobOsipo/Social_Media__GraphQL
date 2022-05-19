@@ -133,4 +133,8 @@ module.exports = {
       }),
     };
   },
+  deletePost: async ({id}, req) => {
+      await Post.findByIdAndRemove(id)
+      return true
+  }
 };
