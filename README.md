@@ -1,3 +1,2 @@
 ## A GraphQL for building social media websites
-***ACA Capstone***
-***currently under construction***
+***still has a few things under construction***
